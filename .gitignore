@@ -1,0 +1,46 @@
+# Python
+backend/.venv/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# finsight runtime data
+backend/uploads/
+backend/*.db
+backend/finsight.db
+backend/_e2e_uploads/
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/*.tsbuildinfo
+frontend/coverage/
+frontend/docs/
+
+# e2e: third-party fetched fixture (not vendored) + Playwright artifacts
+frontend/e2e/fixtures/
+frontend/test-results/
+frontend/playwright-report/
+frontend/.playwright/
+frontend/blob-report/
+
+# Generated docs / build output
+backend/site/
+backend/htmlcov/
+.coverage
+
+# Env / secrets
+.env
+*.local
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+
+## Panda
+styled-system
+styled-system-studio

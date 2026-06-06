@@ -1,0 +1,75 @@
+# git-cliff configuration for finsight monorepo.
+# Generates a Conventional Commits-based CHANGELOG.md.
+# https://git-cliff.org/docs/configuration
+
+[changelog]
+# Jinja2 template for the full changelog.
+header = """
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format follows [Conventional Commits](https://www.conventionalcommits.org/)
+and this project adheres to [Semantic Versioning](https://semver.org/).
+
+"""
+
+body = """
+{% if version %}\
+## [{{ version | trim_start_matches(pat="v") }}] — {{ timestamp | date(format="%Y-%m-%d") }}
+{% else %}\
+## [Unreleased]
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group | upper_first }}
+{% for commit in commits | filter(attribute="scope") | sort(attribute="scope") %}
+- **{{ commit.scope }}**: {{ commit.message | upper_first }} ([`{{ commit.id | truncate(length=7, end="") }}`](https://github.com/{{ remote.github.owner }}/{{ remote.github.repo }}/commit/{{ commit.id }}))
+{%- if commit.breaking %}  ⚠ BREAKING CHANGE{% endif %}
+{% endfor %}\
+{% for commit in commits | reject(attribute="scope") | sort(attribute="message") %}
+- {{ commit.message | upper_first }} ([`{{ commit.id | truncate(length=7, end="") }}`](https://github.com/{{ remote.github.owner }}/{{ remote.github.repo }}/commit/{{ commit.id }}))
+{%- if commit.breaking %}  ⚠ BREAKING CHANGE{% endif %}
+{% endfor %}
+{% endfor %}\n
+"""
+
+footer = ""
+trim = true
+
+[git]
+# Only parse commits that match conventional commits spec.
+conventional_commits = true
+filter_unconventional = true
+split_commits = false
+
+commit_parsers = [
+  { message = "^feat",     group = "Features"          },
+  { message = "^fix",      group = "Bug Fixes"         },
+  { message = "^perf",     group = "Performance"       },
+  { message = "^refactor", group = "Refactoring"       },
+  { message = "^revert",   group = "Reverts"           },
+  { message = "^test",     group = "Testing"           },
+  { message = "^docs",     group = "Documentation"     },
+  { message = "^style",    group = "Styling"           },
+  { message = "^ci",       group = "CI/CD"             },
+  { message = "^build",    group = "Build System"      },
+  { message = "^chore\\(deps\\)", skip = false, group = "Dependencies" },
+  { message = "^chore",    skip = true                 },
+  { body     = ".*security", group = "Security"        },
+]
+
+# Protect release commits (tags) from being included in pre-release section.
+protect_breaking_commits = false
+
+# Filter out commits where `skip = true` above.
+filter_commits = true
+
+# Tags to consider as releases (semver with optional "v" prefix).
+tag_pattern = "v[0-9].*"
+
+# Sort commits within each group by newest first.
+sort_commits = "newest"
+
+[remote.github]
+owner = "VladimirLi"
+repo  = "finsight"

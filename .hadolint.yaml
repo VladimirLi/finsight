@@ -1,0 +1,20 @@
+# Hadolint configuration for finsight Dockerfiles
+# https://github.com/hadolint/hadolint
+
+# DL3008 — apt-get without pinned versions (acceptable; base images are pinned via tags)
+# DL3013 — pip without pinned versions (requirements.txt is the source of truth for pins)
+# DL3018 — apk without pinned versions (alpine packages; tags pin the major version)
+# DL3059 — multiple RUN instructions not consolidated (intentional for layer clarity)
+ignore:
+  - DL3008
+  - DL3013
+  - DL3018
+  - DL3059
+
+# Treat all other findings as errors
+failure-threshold: warning
+
+# Trusted registries (prevents SC-level warnings about unknown registries)
+trustedRegistries:
+  - docker.io
+  - ghcr.io

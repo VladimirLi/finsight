@@ -1,0 +1,79 @@
+# Dependabot configuration for finsight monorepo.
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+
+updates:
+  # ── Python / pip (backend) ────────────────────────────────────────────────
+  - package-ecosystem: pip
+    directory: /backend
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: UTC
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - backend
+    # Group all minor and patch updates into a single PR; breaking changes
+    # (major bumps) still arrive individually so they can be reviewed carefully.
+    groups:
+      backend-minor-patch:
+        update-types:
+          - minor
+          - patch
+    # Automatically rebase stale PRs so the branch doesn't drift.
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore(deps)"
+      include: scope
+    ignore:
+      # Pin Python itself via pyproject.toml; skip runtime interpreter bumps.
+      - dependency-name: python
+        update-types: ["version-update:semver-major"]
+
+  # ── Node / npm (frontend) ─────────────────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: UTC
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - frontend
+    groups:
+      frontend-minor-patch:
+        update-types:
+          - minor
+          - patch
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore(deps)"
+      include: scope
+    versioning-strategy: increase-if-necessary
+
+  # ── GitHub Actions ────────────────────────────────────────────────────────
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: tuesday
+      time: "08:00"
+      timezone: UTC
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - ci
+    groups:
+      actions-minor-patch:
+        update-types:
+          - minor
+          - patch
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore(deps)"
+      include: scope
