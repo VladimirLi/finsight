@@ -1,0 +1,66 @@
+name: Bug report
+description: Report something that isn't working as expected
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug! Please search existing issues
+        first to avoid duplicates.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug, including what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps so we can reproduce it.
+      placeholder: |
+        1. Upload '...'
+        2. Go to '...'
+        3. See error
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Backend / API
+        - Extraction (OCR / LLM)
+        - Ratios / validation
+        - Frontend / UI
+        - Docker / deployment
+        - Other / not sure
+    validations:
+      required: true
+  - type: input
+    id: llm-provider
+    attributes:
+      label: LLM provider & model
+      description: e.g. ollama / llama3.2:3b, anthropic / claude-sonnet-4-6
+    validations:
+      required: false
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: How you ran it (quickstart/Docker vs. local), OS, Python/Node versions.
+      placeholder: |
+        - Run mode: make quickstart (Docker)
+        - OS: macOS 15
+        - Python: 3.13 / Node: 24
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Paste any error output or logs. This is automatically formatted as code.
+      render: shell
+    validations:
+      required: false
