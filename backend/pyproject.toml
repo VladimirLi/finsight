@@ -1,0 +1,167 @@
+[project]
+name = "finsight-backend"
+version = "0.1.0"
+description = "OCR + LLM financial-statement extraction with a deterministic ratio engine"
+requires-python = ">=3.13"
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+# ---------------------------------------------------------------------------
+# Ruff — linter + formatter
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+src = ["app", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # isort
+    "UP",       # pyupgrade
+    "B",        # flake8-bugbear
+    "C4",       # comprehensions
+    "SIM",      # flake8-simplify
+    "TID",      # tidy imports
+    "D",        # pydocstyle — enforce docstrings (google convention)
+]
+ignore = [
+    "E501",  # line length is handled by the formatter
+    "B008",  # FastAPI Depends() in defaults is the standard idiom
+    # pydocstyle conflicts / noise:
+    "D203",  # 1 blank line before class docstring (conflicts with D211)
+    "D213",  # multi-line summary on 2nd line (conflicts with D212)
+    "D107",  # missing docstring in __init__ (covered by the class docstring)
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B", "D"]
+"alembic/*" = ["D"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+# ---------------------------------------------------------------------------
+# mypy — strict type checking
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.13"
+strict = true
+plugins = ["pydantic.mypy"]
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_codes = true
+# --- beyond strict: extra bug-catching not enabled by strict=true ---
+warn_unreachable = true       # flag unreachable / dead branches
+extra_checks = true           # stricter TypedDict / Final / overload handling
+local_partial_types = true    # close a type-inference hole (default in dmypy/pyright)
+enable_error_code = [
+    "possibly-undefined",     # use-before-assignment across branches
+    "redundant-expr",         # expressions that are always true/false
+    "truthy-bool",            # e.g. `if some_function:`  (forgot the call)
+    "truthy-iterable",        # truthiness check on an always-truthy collection type
+    "ignore-without-code",    # every `# type: ignore` must name the error code
+    "unused-awaitable",       # a coroutine result that is never awaited
+    "explicit-override",      # overrides must be marked with @override
+    "mutable-override",       # unsafe mutable attribute overrides
+    "redundant-self",         # redundant Self annotations
+]
+exclude = ["tests/"]
+
+# Optional / lazily-imported third-party libs without type stubs.
+[[tool.mypy.overrides]]
+module = [
+    "fitz",
+    "pdfplumber",
+    "pytesseract",
+    "PIL",
+    "anthropic",
+    "openai",
+]
+ignore_missing_imports = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+# ---------------------------------------------------------------------------
+# pytest
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+# ---------------------------------------------------------------------------
+# Coverage — gate the deterministic CORE. The OCR/LLM adapter modules are
+# excluded: they are thin wrappers over external services/untyped libraries that
+# can only be exercised by integration/E2E runs with real keys + binaries, not by
+# unit tests. The business logic (ratios, validation, extraction, persistence) is
+# what the threshold protects. Run with: pytest --cov=app --cov-fail-under=85
+# ---------------------------------------------------------------------------
+[tool.coverage.run]
+source = ["app"]
+omit = [
+    "app/llm/providers/*",   # external LLM SDK wrappers (need real API keys)
+    "app/ocr/engine.py",     # PyMuPDF/pdfplumber/tesseract wrapper (needs binaries)
+]
+
+[tool.coverage.report]
+show_missing = true
+exclude_also = ["if TYPE_CHECKING:", "raise NotImplementedError", "@abstractmethod"]
+
+# ---------------------------------------------------------------------------
+# Bandit — security linting
+# ---------------------------------------------------------------------------
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+skips = ["B101"]   # assert_used: asserts are fine in this codebase
+
+# ---------------------------------------------------------------------------
+# pyright — second strict type checker
+# ---------------------------------------------------------------------------
+[tool.pyright]
+include = ["app"]
+exclude = ["tests", ".venv", "**/__pycache__"]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.13"
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false   # the lazy-imported OCR/LLM libs are untyped
+# The following rules are disabled because they produce unavoidable false-positive
+# noise from untyped third-party libraries (fitz/PyMuPDF, pdfplumber, pytesseract,
+# PIL, anthropic, openai) that are not installed in the dev venv and lack stubs.
+# Disabling the whole category is cleaner than scattering hundreds of inline ignores.
+reportMissingImports = false           # lazy-imported OCR/LLM libs absent from venv
+reportUnknownMemberType = false        # untyped lib member access (fitz, PIL, etc.)
+reportUnknownVariableType = false      # untyped lib return values / Any propagation
+reportUnknownArgumentType = false      # Any arguments flowing from untyped libs
+reportAttributeAccessIssue = false     # anthropic.Anthropic / openai.OpenAI not resolvable
+
+# ---------------------------------------------------------------------------
+# Vulture — dead-code detection
+# ---------------------------------------------------------------------------
+[tool.vulture]
+paths = ["app", "whitelist.py"]
+min_confidence = 60
+ignore_decorators = [
+    "@router.*",
+    "@app.*",
+    "@abstractmethod",
+    "@*.field_validator",
+    "@*.model_validator",
+    "@override",
+    "@staticmethod",
+]
+ignore_names = ["model_config"]
+exclude = [".venv", "tests"]
