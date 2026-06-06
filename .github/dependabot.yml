@@ -1,5 +1,9 @@
 # Dependabot configuration for finsight monorepo.
 # https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+#
+# Noise control: each ecosystem produces a SINGLE grouped PR per run (all
+# dependencies, all update types), on a monthly cadence. Security updates are
+# separate and still arrive promptly regardless of this schedule.
 
 version: 2
 
@@ -8,7 +12,7 @@ updates:
   - package-ecosystem: pip
     directory: /backend
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "08:00"
       timezone: UTC
@@ -16,14 +20,11 @@ updates:
     labels:
       - dependencies
       - backend
-    # Group all minor and patch updates into a single PR; breaking changes
-    # (major bumps) still arrive individually so they can be reviewed carefully.
+    # One PR for the whole backend dependency set (incl. major bumps).
     groups:
-      backend-minor-patch:
-        update-types:
-          - minor
-          - patch
-    # Automatically rebase stale PRs so the branch doesn't drift.
+      backend:
+        patterns:
+          - "*"
     rebase-strategy: auto
     commit-message:
       prefix: "chore(deps)"
@@ -37,7 +38,7 @@ updates:
   - package-ecosystem: npm
     directory: /frontend
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "08:00"
       timezone: UTC
@@ -46,10 +47,9 @@ updates:
       - dependencies
       - frontend
     groups:
-      frontend-minor-patch:
-        update-types:
-          - minor
-          - patch
+      frontend:
+        patterns:
+          - "*"
     rebase-strategy: auto
     commit-message:
       prefix: "chore(deps)"
@@ -60,7 +60,7 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
       day: tuesday
       time: "08:00"
       timezone: UTC
@@ -69,10 +69,9 @@ updates:
       - dependencies
       - ci
     groups:
-      actions-minor-patch:
-        update-types:
-          - minor
-          - patch
+      actions:
+        patterns:
+          - "*"
     rebase-strategy: auto
     commit-message:
       prefix: "chore(deps)"
