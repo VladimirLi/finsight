@@ -55,6 +55,17 @@ updates:
       prefix: "chore"
       include: scope
     versioning-strategy: increase-if-necessary
+    ignore:
+      # React 19 is a deliberate framework migration, not a routine bump.
+      # Remove these to let Dependabot propose the React 18 -> 19 upgrade.
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/react-dom"
+        update-types: ["version-update:semver-major"]
 
   # ── GitHub Actions ────────────────────────────────────────────────────────
   - package-ecosystem: github-actions

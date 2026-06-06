@@ -5,7 +5,9 @@
 # DL3013 — pip without pinned versions (requirements.txt is the source of truth for pins)
 # DL3018 — apk without pinned versions (alpine packages; tags pin the major version)
 # DL3059 — multiple RUN instructions not consolidated (intentional for layer clarity)
-ignore:
+# NOTE: the key MUST be `ignored` — hadolint silently drops an unknown `ignore`
+# key, which previously let these rules fire and fail CI.
+ignored:
   - DL3008
   - DL3013
   - DL3018

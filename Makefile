@@ -66,12 +66,14 @@ revision: ## Autogenerate a migration (use msg="...")
 migrate-check: ## Drift gate: migrations match the models
 	cd backend && DATABASE_URL="sqlite:///./_drift.db" $(PY)/alembic upgrade head && \
 	  DATABASE_URL="sqlite:///./_drift.db" $(PY)/alembic check; rm -f backend/_drift.db
-lock: ## Regenerate hashed dependency locks (canonical: Python 3.13, matches CI/Docker)
-	@tmp=$$(mktemp -d) && $(LOCK_PY) -m venv $$tmp && $$tmp/bin/pip install -q pip-tools && \
-	  cd backend && \
-	  $$tmp/bin/pip-compile -q --generate-hashes --strip-extras --allow-unsafe -o requirements.lock requirements.txt && \
-	  $$tmp/bin/pip-compile -q --generate-hashes --strip-extras --allow-unsafe -o requirements-dev.lock requirements-dev.txt; \
-	  rm -rf $$tmp
+lock: ## Regenerate hashed dependency locks (canonical: Linux + Python 3.13, matches CI/Docker)
+	@# Locks MUST be generated on Linux to match CI/Docker — resolving on macOS
+	@# omits Linux-only transitive deps and the drift gate then fails. Use a
+	@# python:3.13-slim container so the result is reproducible everywhere.
+	docker run --rm -v "$(CURDIR)/backend:/b" -w /b python:3.13-slim bash -c '\
+	  pip install -q pip-tools && \
+	  pip-compile -q --generate-hashes --strip-extras --allow-unsafe -o requirements.lock requirements.txt && \
+	  pip-compile -q --generate-hashes --strip-extras --allow-unsafe -o requirements-dev.lock requirements-dev.txt'
 lock-check: lock ## Drift gate: dep locks match the requirements inputs
 	git diff --exit-code backend/requirements.lock backend/requirements-dev.lock || \
 	  (echo "dep locks stale — run 'make lock' (needs python3.13) and commit" && exit 1)
