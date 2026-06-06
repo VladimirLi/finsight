@@ -1,0 +1,9 @@
+[codespell]
+# Paths / globs to skip entirely
+skip = .git,.venv,node_modules,dist,package-lock.json,*.json,*.lock,whitelist.py,*.min.js,*.map,*.css.map,tsconfig.tsbuildinfo,frontend/dist,frontend/build,__pycache__,*.pyc
+
+# Domain-specific terms that are not misspellings
+ignore-words-list = roic,nopat,ebitda,capex,opex,ocf,dso,dio,eps,finsight,pydantic,pymupdf,pdfplumber,pytesseract,uvicorn,ollama,sqlalchemy,schemathesis,thr,nd
+
+# Suppress "no issues found" message; 0=normal, 1=quiet, 2=very quiet
+quiet-level = 0

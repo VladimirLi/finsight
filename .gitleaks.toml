@@ -1,0 +1,41 @@
+# gitleaks configuration for finsight
+# Extends the default ruleset with project-specific allowlists.
+# See: https://github.com/gitleaks/gitleaks#configuration
+
+title = "finsight gitleaks config"
+
+[extend]
+# Pull in gitleaks' built-in default rules.
+useDefault = true
+
+# ---------------------------------------------------------------------------
+# Global allowlist — paths that should never be scanned for secrets
+# ---------------------------------------------------------------------------
+[allowlist]
+description = "Project paths that never contain real secrets"
+paths = [
+    # Lockfiles and generated JSON (can contain long token-like strings)
+    '''^frontend/package-lock\.json$''',
+    '''.*\.snap$''',
+    '''.*openapi\.json$''',
+    # Dist / build artefacts
+    '''.*dist/.*''',
+    '''.*\.venv/.*''',
+    # Test fixtures
+    '''.*tests/.*fixtures.*''',
+]
+
+# Regex patterns that are never real secrets regardless of which rule fires
+regexes = [
+    # .env.example placeholder keys: key= with no value or an obvious placeholder
+    '''(?i)(ANTHROPIC_API_KEY|OPENAI_API_KEY|OPENAI_BASE_URL|OLLAMA_BASE_URL|DATABASE_URL|UPLOAD_DIR|LLM_PROVIDER|LLM_MODEL|OCR_DPI|TESSERACT_CMD)\s*=\s*$''',
+    # Placeholder values that are obviously not real keys
+    '''(?i)(your[-_]?key[-_]?here|changeme|replace[-_]?me|example[-_]?key|sk-xxx|xxx+|placeholder)''',
+    # Local SQLite connection strings
+    '''sqlite:///\./''',
+    # Local service URLs
+    '''http://localhost:\d+''',
+]
+
+# Commit SHAs (SHA-256 / SHA-1 in documentation are not secrets)
+commits = []
