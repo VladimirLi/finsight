@@ -1,0 +1,12 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/api/client.ts", "src/api/types.ts", "src/components"],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "name": "finsight frontend",
+  "readme": "none",
+  "skipErrorChecking": true,
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "src/test/**"]
+}

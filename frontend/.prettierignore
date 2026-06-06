@@ -1,0 +1,10 @@
+dist
+docs
+coverage
+node_modules
+styled-system
+*.lock
+package-lock.json
+tsconfig.tsbuildinfo
+# generated from backend OpenAPI (drift-gated as raw output)
+src/api/openapi.d.ts
