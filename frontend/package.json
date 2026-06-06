@@ -1,0 +1,74 @@
+{
+  "name": "finsight-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "panda codegen --silent && vite",
+    "build": "panda codegen --silent && tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "panda codegen --silent && tsc --noEmit && tsc -p tsconfig.e2e.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
+    "knip": "knip",
+    "audit": "npm audit --audit-level=high",
+    "gen:css": "panda codegen",
+    "gen:api-types": "openapi-typescript ../backend/openapi.json -o src/api/openapi.d.ts",
+    "docs": "typedoc",
+    "size": "size-limit",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:install": "playwright install --with-deps chromium",
+    "prepare": "panda codegen --silent"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.0"
+  },
+  "devDependencies": {
+    "@axe-core/react": "^4.10.2",
+    "@eslint/js": "^10.0.1",
+    "@pandacss/dev": "^1.11.3",
+    "@playwright/test": "^1.60.0",
+    "@size-limit/preset-app": "^11.2.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^24.0.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^6.0.2",
+    "@vitest/coverage-v8": "^4.1.8",
+    "axe-core": "^4.12.0",
+    "eslint": "^10.4.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "jsdom": "^26.1.0",
+    "knip": "^6.16.0",
+    "openapi-typescript": "^7.8.0",
+    "prettier": "^3.8.3",
+    "size-limit": "^11.2.0",
+    "typedoc": "^0.28.7",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.60.1",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.8"
+  },
+  "size-limit": [
+    {
+      "path": "dist/assets/*.js",
+      "limit": "350 kB"
+    }
+  ]
+}
