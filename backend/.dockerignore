@@ -1,0 +1,56 @@
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Test artifacts
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads (mounted as volume in production)
+uploads/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment files (injected at runtime)
+.env
+.env.*
+!.env.example
+
+# Docker
+Dockerfile
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
