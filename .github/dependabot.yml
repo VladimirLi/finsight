@@ -27,7 +27,7 @@ updates:
           - "*"
     rebase-strategy: auto
     commit-message:
-      prefix: "chore(deps)"
+      prefix: "chore"
       include: scope
     ignore:
       # Pin Python itself via pyproject.toml; skip runtime interpreter bumps.
@@ -52,7 +52,7 @@ updates:
           - "*"
     rebase-strategy: auto
     commit-message:
-      prefix: "chore(deps)"
+      prefix: "chore"
       include: scope
     versioning-strategy: increase-if-necessary
 
@@ -74,5 +74,5 @@ updates:
           - "*"
     rebase-strategy: auto
     commit-message:
-      prefix: "chore(deps)"
+      prefix: "chore"
       include: scope

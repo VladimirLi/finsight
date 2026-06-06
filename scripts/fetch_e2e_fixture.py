@@ -43,7 +43,7 @@ _DEFAULT_OUT = (
     / "real-financials.pdf"
 )
 # A descriptive UA is polite (and required by some hosts, e.g. SEC EDGAR).
-_USER_AGENT = "finsight-e2e-tests (vladimir@arkus.ai)"
+_USER_AGENT = "finsight-e2e-tests (+https://github.com/VladimirLi/finsight)"
 
 # Headers that mark the financial-statement pages we want to keep. The titles
 # sit at the top of each statement page (matched against the first few lines).

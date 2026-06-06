@@ -4,11 +4,9 @@
 
 Please **do not open a public issue** for security vulnerabilities.
 
-Report them privately instead, via either:
-
-- GitHub's [private vulnerability reporting](../../security/advisories/new)
-  (Security → Report a vulnerability), or
-- email to **vladimir@arkus.ai**.
+Report them privately via GitHub's
+[private vulnerability reporting](../../security/advisories/new)
+(the repository's **Security → Report a vulnerability**).
 
 Please include enough detail to reproduce — affected component (backend / frontend /
 extraction pipeline), steps, and impact. I'll acknowledge your report as soon as I
