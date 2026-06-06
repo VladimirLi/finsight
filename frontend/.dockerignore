@@ -1,0 +1,41 @@
+# Node dependencies (installed fresh in build stage)
+node_modules/
+
+# Build output (built fresh in image)
+dist/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Docker (nginx.conf is NOT ignored — the runtime stage COPYs it into the image)
+Dockerfile
+.dockerignore
+
+# E2E (not needed in the production image)
+e2e/
+playwright.config.ts
+tsconfig.e2e.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+coverage/
+
+# TypeScript build cache
+tsconfig.tsbuildinfo
