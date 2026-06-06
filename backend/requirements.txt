@@ -7,7 +7,7 @@ sqlalchemy>=2.0
 alembic>=1.13
 # PostgreSQL driver (used by docker-compose; SQLite needs no driver)
 psycopg2-binary>=2.9
-python-multipart>=0.0.9
+python-multipart>=0.0.32
 # OCR / PDF parsing
 pymupdf>=1.23
 pdfplumber>=0.11
