@@ -10,7 +10,7 @@ psycopg2-binary>=2.9
 python-multipart>=0.0.9
 # OCR / PDF parsing
 pymupdf>=1.23
-pdfplumber>=0.11
+pdfplumber>=0.11.9
 pytesseract>=0.3.10
 pillow>=10.0
 # LLM providers (all optional at runtime; import lazily)
