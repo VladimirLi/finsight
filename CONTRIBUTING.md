@@ -19,8 +19,8 @@ writing code.
 
 Prerequisites:
 
-- **Python 3.13** — `make install` runs `python -m venv`, so `python` must
-  resolve to 3.13 on your `PATH` (via pyenv, or `brew install python@3.13`).
+- **Python 3.13** — installed and on your `PATH` as `python3.13` (the Makefile
+  uses it to create the venv; override with `make install PYTHON=...`).
 - **Node 24** — an `.nvmrc` is provided; run `nvm use` (`nvm install` first if needed).
 - **Docker** — for the full-stack/e2e tests, dependency-lock regeneration
   (`make lock`), and `make quickstart`.
