@@ -71,6 +71,11 @@ key in `.env` (see [Provider switching](#provider-switching-llm_provider--llm_mo
 
 ## Developing
 
+Prerequisites: **Python 3.13** (available as `python` on your `PATH`), **Node 24**
+(`nvm use`), **Docker**, and the host CLI tools **gitleaks** + **git-cliff**
+(`brew install gitleaks git-cliff`) used by the secrets-scan and changelog targets.
+See [CONTRIBUTING.md](CONTRIBUTING.md#getting-set-up) for details.
+
 ```bash
 make install     # backend venv + dev deps + pre-commit; frontend npm ci
 make dev-backend # uvicorn (in one terminal)

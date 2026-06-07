@@ -8,6 +8,8 @@ vulture>=2.16
 pyright>=1.1.410
 pip-audit>=2.10.0
 bandit>=1.9.4
+# spell-check (cspell runs via npx on the frontend side)
+codespell>=2.3
 # property-based + API fuzz testing
 hypothesis>=6.155.2
 schemathesis>=4.21.1
