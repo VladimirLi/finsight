@@ -16,9 +16,9 @@ annotated-types==0.7.0 \
     --hash=sha256:1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53 \
     --hash=sha256:aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89
     # via pydantic
-anthropic==0.106.0 \
-    --hash=sha256:d0e4a7448e54c3942833cee5b3de5f1b31289fd49999bfbcc2ec0c0acaddf75f \
-    --hash=sha256:f26e2645e31f66eff526b923f539b80b4b6eda1a918790cd77c0afe5e24a2203
+anthropic==0.107.0 \
+    --hash=sha256:b28315631e8ed92eec37ff0f911e59730c6a04663d9fffd53e201e11fa6669f1 \
+    --hash=sha256:e036aae37b7a9ba0a71d74663a559002c96800eeaca4e336ca1f2d10d0a33297
     # via -r requirements.txt
 anyio==4.13.0 \
     --hash=sha256:08b310f9e24a9594186fd75b4f73f4a4152069e3853f1ed8bfbf58369f4ad708 \
