@@ -66,6 +66,10 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "@types/react-dom"
         update-types: ["version-update:semver-major"]
+      # Keep @types/node on the runtime's major (Node 24 LTS); a major bump here
+      # would type against Node APIs not present at runtime.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   # ── GitHub Actions ────────────────────────────────────────────────────────
   - package-ecosystem: github-actions
