@@ -17,8 +17,16 @@ writing code.
 
 ## Getting set up
 
-Prerequisites: **Python 3.13**, **Node 24** (an `.nvmrc` is provided — run
-`nvm use`), and **Docker** (only for the full-stack/e2e tests).
+Prerequisites:
+
+- **Python 3.13** — `make install` runs `python -m venv`, so `python` must
+  resolve to 3.13 on your `PATH` (via pyenv, or `brew install python@3.13`).
+- **Node 24** — an `.nvmrc` is provided; run `nvm use` (`nvm install` first if needed).
+- **Docker** — for the full-stack/e2e tests, dependency-lock regeneration
+  (`make lock`), and `make quickstart`.
+- **gitleaks** and **git-cliff** — host CLI tools used by `make secrets-scan`
+  (part of `make check`) and `make changelog`. Install with
+  `brew install gitleaks git-cliff`, or your platform's package manager.
 
 ```bash
 make install      # backend venv + dev deps + pre-commit hooks; frontend npm ci
