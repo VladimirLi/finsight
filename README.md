@@ -71,7 +71,7 @@ key in `.env` (see [Provider switching](#provider-switching-llm_provider--llm_mo
 
 ## Developing
 
-Prerequisites: **Python 3.13** (available as `python` on your `PATH`), **Node 24**
+Prerequisites: **Python 3.13** (`python3.13` on your `PATH`), **Node 24**
 (`nvm use`), **Docker**, and the host CLI tools **gitleaks** + **git-cliff**
 (`brew install gitleaks git-cliff`) used by the secrets-scan and changelog targets.
 See [CONTRIBUTING.md](CONTRIBUTING.md#getting-set-up) for details.
@@ -89,7 +89,7 @@ Requires Python 3.13+ (the project standardizes on 3.13 across CI, Docker, and t
 
 ```bash
 cd backend
-python -m venv .venv && source .venv/bin/activate
+python3.13 -m venv .venv && source .venv/bin/activate
 pip install -r requirements-dev.txt   # or requirements.txt for runtime only
 cp .env.example .env          # then edit .env (see provider switching below)
 uvicorn app.main:app --reload

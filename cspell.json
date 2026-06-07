@@ -75,7 +75,6 @@
     "canonicalization",
     "venv",
     "virtualenv",
-    "pyenv",
     "deduplication",
     "deserialize",
     "deserializing",

@@ -12,6 +12,7 @@
 VENV := backend/.venv
 PY := $(abspath $(VENV)/bin)
 COV_MIN := 85
+PYTHON ?= python3.13    # interpreter used to create the venv (project standardizes on 3.13)
 LOCK_PY ?= python3.13   # locks are canonical on the CI/Docker Python (3.13)
 
 help: ## Show this help
@@ -21,7 +22,7 @@ help: ## Show this help
 # ----------------------------------------------------------------- install
 install: backend-install frontend-install ## Install all dev deps + pre-commit
 backend-install: ## Create venv, install backend dev deps, install pre-commit
-	python -m venv $(VENV)
+	$(PYTHON) -m venv $(VENV)
 	$(PY)/pip install -U pip
 	$(PY)/pip install -r backend/requirements-dev.txt
 	$(PY)/pip install pre-commit && $(PY)/pre-commit install && $(PY)/pre-commit install --hook-type commit-msg || true
